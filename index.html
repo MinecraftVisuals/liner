@@ -163,7 +163,7 @@ input[type=range]::-moz-range-thumb{width:12px;height:12px;border-radius:50%;bac
   </main>
   <main id="settings" hidden>
     <h2>Settings</h2>
-    <div class="setrow"><p>Background cover</p><div class="sw" id="sw"></div></div>
+    <div class="setrow"><p>Background theme</p><div class="sw" id="sw"></div></div>
   </main>
   <div class="bar">
     <div class="now" id="now" role="button" tabindex="0" aria-label="Open now playing"><div class="cover" id="nc"></div>
@@ -670,16 +670,30 @@ function atick(){var w=aW(),nat=apaused&&!aboost&&!dr,wr=false;
   requestAnimationFrame(atick);}
 requestAnimationFrame(atick);
 
-// Settings: background cover for the main screen
-var PRE=[null,"linear-gradient(160deg,#0b3d91,#050a1f)","linear-gradient(160deg,#0f5132,#04120b)","linear-gradient(160deg,#5b21b6,#12052b)","linear-gradient(160deg,#c2410c,#3b0a2a)","linear-gradient(160deg,#1f2937,#030712)","linear-gradient(160deg,#be123c,#2a0412)","linear-gradient(160deg,#0f766e,#04201d)","linear-gradient(160deg,#a16207,#2a1503)","linear-gradient(160deg,#3730a3,#0b0a2e)","linear-gradient(160deg,#e11cb4,#32052b)"];
+// Settings: background themes for the main screen.
+// One theme per track, built from that track's cover colours with the same colour pull (tint) and
+// gradient recipe as the now-playing background. The cover image itself is never shown.
+var TH=[S,S2,S3,S4,S5],thBg=[],thBtn=[];
+var DEF="linear-gradient(160deg,#7d1a3b,#1c0610)";
 var appEl=document.querySelector(".app"),bg={};
 try{bg=JSON.parse(localStorage.getItem("bg")||"{}")}catch(e){}
 function saveBg(){try{localStorage.setItem("bg",JSON.stringify(bg))}catch(e){}}
-function applyBg(){var v=PRE[bg.i||0]||"";
-  appEl.style.background=v;
-  document.querySelectorAll("#sw button").forEach(function(b,k){b.classList.toggle("on",(bg.i||0)===k)});}
-PRE.forEach(function(g,k){var b=document.createElement("button");b.style.background=g||"linear-gradient(160deg,#7d1a3b,#1c0610)";b.setAttribute("aria-label","Background "+(k+1));
-  b.addEventListener("click",function(){bg={i:k};saveBg();applyBg();});$("sw").appendChild(b);});
+function themeCss(cols){var a=cols[0]||[40,90,200],b=cols[1]||a;
+  return "radial-gradient(40% 40% at 25% 30%,"+sh(a,.62)+",transparent 70%),"+
+         "radial-gradient(45% 45% at 75% 70%,"+sh(b,.55)+",transparent 70%),"+
+         "radial-gradient(35% 35% at 70% 20%,"+sh(a,.4)+",transparent 70%),"+sh(a,.14);}
+function selBg(){return typeof bg.t==="number"&&bg.t>=0&&bg.t<TH.length?bg.t:-1;}
+function applyBg(){var k=selBg();
+  appEl.style.background=k>-1&&thBg[k]?thBg[k]:"";
+  document.querySelectorAll("#sw button").forEach(function(b,i){b.classList.toggle("on",i===k+1)});}
+function swatch(css,label,k){var b=document.createElement("button");b.style.background=css;
+  b.setAttribute("aria-label",label);b.title=label;
+  b.addEventListener("click",function(){bg=k>-1?{t:k}:{};saveBg();applyBg();});$("sw").appendChild(b);return b;}
+swatch(DEF,"Default background",-1);
+TH.forEach(function(t,k){
+  thBtn[k]=swatch(DEF,"Background: "+t[0]+" - "+t[1],k);
+  tint(t[3],function(cols){thBg[k]=themeCss(cols);thBtn[k].style.background=thBg[k];if(selBg()===k)applyBg();});
+});
 applyBg();
 var FAV0=$("fav").href;
 function setFav(u){var l=document.createElement("link");l.id="fav";l.rel="icon";l.href=u;
