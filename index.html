@@ -396,18 +396,62 @@ var LRC_CALIFORNIA=`[00:00.00]Lyric line 1
 [00:38.33]Lyric line 11
 [00:42.17]Lyric line 12`;
 // Summer After High School
-var LRC_SUMMER=`[00:00.00]Lyric line 1
-[00:04.92]Lyric line 2
-[00:09.83]Lyric line 3
-[00:14.75]Lyric line 4
-[00:19.67]Lyric line 5
-[00:24.58]Lyric line 6
-[00:29.50]Lyric line 7
-[00:34.42]Lyric line 8
-[00:39.33]Lyric line 9
-[00:44.25]Lyric line 10
-[00:49.17]Lyric line 11
-[00:54.08]Lyric line 12`;
+// Summer After High School
+// Summer After High School
+var LRC_SUMMER=`[00:01.64]Summer after high school when we first met
+[00:04.91]We'd make out in your Mustang to Radiohead
+[00:08.64]And on my 18th birthday we got matching tattoos
+[00:15.39]Used to steal your parents' liquor and climb to the roof
+[00:19.40]Talk about our future like we had a clue
+[00:22.89]Never planned that one day I'd be losing you
+[00:28.39]In another life
+[00:31.91]I would be your girl
+[00:35.39]We'd keep all our promises
+[00:38.64]Be us against the world
+[00:42.65]In another life
+[00:46.40]I would make you stay
+[00:49.64]So I don't have to say you were
+[00:52.89]The one that got away
+[00:56.89]The one that got away
+[01:01.16]I was June and you were my Johnny Cash
+[01:03.89]Never one without the other, we made a pact
+[01:07.90]Sometimes when I miss you I put those records on whoa
+[01:14.64]Someone said you had your tattoo removed
+[01:18.16]Saw you downtown singing the blues
+[01:21.90]It's time to face the music, I'm no longer your muse
+[01:27.39]But in another life
+[01:30.89]I would be your girl
+[01:34.64]We'd keep all our promises
+[01:37.89]Be us against the world
+[01:41.89]In another life
+[01:45.40]I would make you stay
+[01:48.89]So I don't have to say you were
+[01:52.14]The one that got away
+[01:56.16]The one that got away
+[01:59.64]The one
+[02:03.14]The one
+[02:06.64]The one
+[02:10.39]The one that got away
+[02:13.67]All this money can't buy me a time machine, no
+[02:20.89]Can't replace you with a million rings, no
+[02:28.40]I should've told you what you meant to me whoa
+[02:35.39]'Cause now I pay the price
+[02:39.14]In another life
+[02:42.89]I would be your girl
+[02:46.39]We'd keep all our promises
+[02:49.40]Be us against the world
+[02:53.40]In another life
+[02:57.14]I would make you stay
+[03:00.66]So I don't have to say you were
+[03:03.64]The one that got away
+[03:07.66]The one that got away
+[03:11.14]The one the one
+[03:14.64]The one the one
+[03:18.39]The one the one
+[03:21.89]In another life
+[03:25.42]I would make you stay
+[03:29.14]So I don't have to say you were
+[03:32.40]The one that got away`;
 function parse(s,dur){var L=s.split("\n").map(function(l){return l.trim()}).filter(Boolean),o=[];
   L.forEach(function(l){var m=/^\[(\d+):(\d+(?:\.\d+)?)\](.*)$/.exec(l);if(m&&m[3].trim())o.push({t:m[1]*60+parseFloat(m[2]),s:m[3].trim()});});
   return o.length?o:L.map(function(l,i){return{t:i*dur/L.length,s:l}});}
